@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -63,19 +65,22 @@
                 <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <br>
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <button onclick="FirstClass(false)" class="btn btn-default btnside"><i class="fas fa-minus"></i></button>
+                    <input id="First-count" type="text" class="form-control text-center" value="1">
+                    <button onclick="FirstClass(true)" class="btn btn-default btnside"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
                 <div class="input-group f-class">
                     <div>
                         <label for="">Economy ($100)</label>
-                        <input class="inp-style inp-width" type="number" name="">
                     </div>
                     <div class="plus-minus-btn">
-                        <p> <span>+</span> <span>-</span> </p>
+                        <button onclick="EconomyClass(false)" class="btn btn-default btnside"><i class="fas fa-minus"></i></button>
+                        <input id="Economy-count" type="text" class="form-control text-center" value="1">
+                        <button onclick="EconomyClass(true)" class="btn btn-default btnside"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
 
@@ -86,7 +91,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="total-price">$500</p>
                     </div>
                 </div>
 
@@ -95,7 +100,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="txs-amount">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -104,12 +109,80 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="gran-total">$550</p>
                     </div>
                 </div>
             </div>
             <button class="btn-style">Book Now</button>
         </div>
+
+        <script>
+             function FirstClass(isIncrease){
+             const ticketInput = document.getElementById('First-count');
+             const ticketCount = parseInt(ticketInput.value);
+
+             // const caseNewCount = caseCount - 1; 
+
+             let ticketNewCount = ticketCount;
+             if(isIncrease == true){
+                ticketNewCount = ticketCount + 1;
+
+             }
+             if(isIncrease == false && ticketCount > 0){
+                ticketNewCount = ticketCount - 1;
+             }
+             ticketInput.value = ticketNewCount;
+             const ticketTotal = ticketNewCount*150;
+             calculateTotal();
+          }
+
+          function EconomyClass(isIncrease){
+             const tickeInput = document.getElementById('Economy-count');
+             const tickeCount = parseInt(tickeInput.value);
+
+             // const caseNewCount = caseCount - 1; 
+
+             let tickeNewCount = tickeCount;
+            if(isIncrease == true){
+                tickeNewCount = tickeCount + 1;
+
+             }
+             if(isIncrease == false && tickeCount > 0){
+                tickeNewCount = tickeCount - 1;
+            }
+            tickeInput.value = tickeNewCount;
+             const tickeTotal = tickeNewCount*100;
+             calculateTotal();
+          }
+
+         function getInputValue(product){
+            const productInput = document.getElementById(product + '-count');
+            const productCount = parseInt(productInput.value);
+            return productCount;
+         }
+
+         function calculateTotal(){
+
+        const firstCount = getInputValue('First');
+
+        const economyCount = getInputValue('Economy');
+
+        const totalPrice = firstCount * 150 + economyCount * 100;
+        document.getElementById('total-price').innerText = '$' + totalPrice;
+
+        const tax = Math.round(totalPrice * 0.1);
+        document.getElementById('txs-amount').innerText = '$' + tax;
+
+        const ticketTotal = totalPrice +tax;
+        document.getElementById('gran-total').innerText = '$' + ticketTotal;
+        }
+
+        function getInputValue(ticket){
+        const ticketInput = document.getElementById(ticket + '-count');
+        const ticketCount = parseInt(ticketInput.value);
+        return ticketCount;
+        }
+        </script>
     </main>
 
     <!--Thank You-->
